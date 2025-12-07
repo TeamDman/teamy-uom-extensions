@@ -56,15 +56,15 @@ mod tests {
     #[test]
     fn information_formatting_f64() {
         let i = uom::si::f64::Information::new::<byte>(1536.0_f64);
-        assert!(i.format_human(crate::DECIMAL).len() > 0);
-        assert!(i.format_human(crate::BINARY).len() > 0);
+        assert!(!i.format_human(crate::DECIMAL).is_empty());
+        assert!(!i.format_human(crate::BINARY).is_empty());
     }
 
     #[test]
     fn information_formatting_f32() {
         let i = uom::si::f32::Information::new::<byte>(1536.0_f32);
-        assert!(i.format_human(crate::DECIMAL).len() > 0);
-        assert!(i.format_human(crate::BINARY).len() > 0);
+        assert!(!i.format_human(crate::DECIMAL).is_empty());
+        assert!(!i.format_human(crate::BINARY).is_empty());
     }
 
     #[test]
@@ -81,12 +81,12 @@ mod tests {
     #[test]
     fn info_rate_formatting_f64_and_f32() {
         let r64 = uom::si::f64::InformationRate::new::<byte_per_second>(2048.0_f64);
-        assert!(r64.format_human(crate::DECIMAL).len() > 0);
-        assert!(r64.format_human(crate::BINARY).len() > 0);
+        assert!(!r64.format_human(crate::DECIMAL).is_empty());
+        assert!(!r64.format_human(crate::BINARY).is_empty());
 
         let r32 = uom::si::f32::InformationRate::new::<byte_per_second>(2048.0_f32);
-        assert!(r32.format_human(crate::DECIMAL).len() > 0);
-        assert!(r32.format_human(crate::BINARY).len() > 0);
+        assert!(!r32.format_human(crate::DECIMAL).is_empty());
+        assert!(!r32.format_human(crate::BINARY).is_empty());
     }
     // The remaining tests are handled by the single/both feature-specific test modules above.
 }
