@@ -34,12 +34,16 @@ pub use humantime;
 #[cfg(feature = "full")]
 pub use uom;
 
-mod si;
+mod human;
+mod rate;
 
 // Re-export the public traits at crate root for ergonomic import paths (keeps examples/tests working).
-pub use crate::si::information::HumanInformationExt;
-pub use crate::si::information_rate::HumanInformationRateExt;
-pub use crate::si::time::HumanTimeExt;
+pub use crate::human::si::information::HumanInformationExt;
+pub use crate::human::si::information_rate::HumanInformationRateExt;
+pub use crate::human::si::time::HumanTimeExt;
+
+// Convenience helper to create information rates from information + time
+pub use crate::rate::si::information::InformationOverExt;
 
 // SI submodules implement the traits and are included above.
 

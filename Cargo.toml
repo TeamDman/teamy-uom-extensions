@@ -45,6 +45,8 @@ uom = { version = "0.37.0", default-features = false, features = [
     "si",
     "f32",
     "f64",
+    "usize",
+    "autoconvert",
 ] }
 
 
