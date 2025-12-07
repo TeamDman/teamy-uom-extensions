@@ -1,0 +1,19 @@
+[package]
+name = "teamy-uom-extensions"
+version = "0.1.0"
+edition = "2024"
+authors = ["TeamDman <noreply@example.invalid>"]
+description = "Small set of human-friendly display helpers for uom types (humantime + humansize integrations)"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/TeamDman/teamy-uom-extensions"
+
+[features]
+# Enable human readable helpers which depend on `humantime` and `humansize`.
+default = ["human"]
+human = ["humantime", "humansize"]
+
+[dependencies]
+uom = "0.37.0"
+# Optional dependencies gated behind the `human` feature
+humansize = { version = "2.1.3", optional = true }
+humantime = { version = "2.3.0", optional = true }

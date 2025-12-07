@@ -1,0 +1,33 @@
+//! InformationRate-specific human formatting helpers and trait.
+
+/// Trait with human-friendly formatting helpers for `InformationRate`.
+pub trait HumanInformationRateExt {
+    /// Human friendly representation using the provided `FormatSizeOptions` with a "/s" suffix.
+    fn format_human(&self, options: crate::FormatSizeOptions) -> String;
+}
+
+#[cfg(feature = "human")]
+mod human_impl {
+    use super::*;
+    use humansize::format_size;
+
+    impl HumanInformationRateExt for crate::InformationRate {
+        fn format_human(&self, options: crate::FormatSizeOptions) -> String {
+            let bytes = self.get::<uom::si::information_rate::byte_per_second>();
+            if bytes <= 0.0 { return "0 B/s".to_string(); }
+            let val = bytes.max(0.0).round() as u64;
+            format!("{}/s", format_size(val, options))
+        }
+    }
+}
+
+#[cfg(not(feature = "human"))]
+mod no_human_impl {
+    use super::*;
+
+    impl HumanInformationRateExt for crate::InformationRate {
+        fn format_human(&self, _options: crate::FormatSizeOptions) -> String {
+            format!("{} B/s", self.get::<uom::si::information_rate::byte_per_second>())
+        }
+    }
+}
