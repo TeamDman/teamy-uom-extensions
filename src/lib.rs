@@ -41,7 +41,6 @@ mod rate;
 pub use crate::human::si::information::HumanInformationExt;
 pub use crate::human::si::information_rate::HumanInformationRateExt;
 pub use crate::human::si::time::HumanTimeExt;
-
 // Convenience helper to create information rates from information + time
 pub use crate::rate::si::information::InformationOverExt;
 

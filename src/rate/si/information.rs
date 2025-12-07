@@ -9,7 +9,10 @@
 /// Extension trait providing `.over(time)` to calculate rate as `InformationRate<f64>`.
 pub trait InformationOverExt {
     /// Compute the information rate (bytes per second) using f64 arithmetic.
-    fn over<Utime, Vtime>(&self, time: uom::si::time::Time<Utime, Vtime>) -> uom::si::f64::InformationRate
+    fn over<Utime, Vtime>(
+        &self,
+        time: uom::si::time::Time<Utime, Vtime>,
+    ) -> uom::si::f64::InformationRate
     where
         Utime: uom::si::Units<Vtime> + ?Sized,
         Vtime: uom::num::Num + uom::Conversion<Vtime> + uom::num::ToPrimitive + Copy + PartialOrd,
@@ -22,16 +25,29 @@ where
     Vint: uom::num::Num + uom::Conversion<Vint> + uom::num::ToPrimitive + Copy + PartialOrd,
     uom::si::information::byte: uom::Conversion<Vint, T = Vint::T>,
 {
-    fn over<Utime, Vtime>(&self, time: uom::si::time::Time<Utime, Vtime>) -> uom::si::f64::InformationRate
+    fn over<Utime, Vtime>(
+        &self,
+        time: uom::si::time::Time<Utime, Vtime>,
+    ) -> uom::si::f64::InformationRate
     where
         Utime: uom::si::Units<Vtime> + ?Sized,
         Vtime: uom::num::Num + uom::Conversion<Vtime> + uom::num::ToPrimitive + Copy + PartialOrd,
         uom::si::time::second: uom::Conversion<Vtime, T = Vtime::T>,
     {
         // Convert both sides to f64 using the byte/second base units, guard against zero
-        let bytes = self.get::<uom::si::information::byte>().to_f64().unwrap_or(0.0_f64);
-        let secs = time.get::<uom::si::time::second>().to_f64().unwrap_or(0.0_f64);
-        let per_sec = if secs > 0.0_f64 { bytes / secs } else { 0.0_f64 };
+        let bytes = self
+            .get::<uom::si::information::byte>()
+            .to_f64()
+            .unwrap_or(0.0_f64);
+        let secs = time
+            .get::<uom::si::time::second>()
+            .to_f64()
+            .unwrap_or(0.0_f64);
+        let per_sec = if secs > 0.0_f64 {
+            bytes / secs
+        } else {
+            0.0_f64
+        };
         uom::si::f64::InformationRate::new::<uom::si::information_rate::byte_per_second>(per_sec)
     }
 }
