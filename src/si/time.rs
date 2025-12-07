@@ -21,11 +21,7 @@ mod human_impl {
     impl<U, V> HumanTimeExt for uom::si::time::Time<U, V>
     where
         U: uom::si::Units<V> + ?Sized,
-        V: uom::num::Num
-            + uom::Conversion<V>
-            + uom::num::ToPrimitive
-            + PartialOrd
-            + Copy,
+        V: uom::num::Num + uom::Conversion<V> + uom::num::ToPrimitive + PartialOrd + Copy,
         uom::si::time::second: uom::Conversion<V, T = V::T>,
     {
         fn format_human(&self) -> String {
@@ -66,11 +62,7 @@ mod no_human_impl {
     impl<U, V> HumanTimeExt for uom::si::time::Time<U, V>
     where
         U: uom::si::Units<V> + ?Sized,
-        V: uom::num::Num
-            + uom::Conversion<V>
-            + uom::num::ToPrimitive
-            + PartialOrd
-            + Copy,
+        V: uom::num::Num + uom::Conversion<V> + uom::num::ToPrimitive + PartialOrd + Copy,
         uom::si::time::second: uom::Conversion<V, T = V::T>,
         uom::si::time::nanosecond: uom::Conversion<V, T = V::T>,
     {
