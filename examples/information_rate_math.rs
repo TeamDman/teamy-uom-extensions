@@ -1,6 +1,7 @@
 use teamy_uom_extensions::HumanInformationExt;
 use teamy_uom_extensions::HumanInformationRateExt;
 use teamy_uom_extensions::HumanTimeExt;
+use teamy_uom_extensions::InformationOverExt;
 use uom::si::f64::Time;
 use uom::si::information::kibibyte;
 use uom::si::time::second;
@@ -8,6 +9,7 @@ use uom::si::time::second;
 fn main() {
     println!("=== InformationRate Math Demo ===");
     {
+        println!("Using manual conversion:");
         use uom::si::f64::Information;
         use uom::si::f64::InformationRate;
 
@@ -25,15 +27,14 @@ fn main() {
         );
     }
     {
-        
+        println!("Using helper conversion:");
         use uom::si::usize::Information;
-        use uom::si::f64::InformationRate;
 
         let item_count = 1_234_567;
         let item_size = Information::new::<kibibyte>(1);
         let time_taken = Time::new::<second>(123.0);
         let total_size = item_count * item_size;
-        let info_rate: InformationRate = todo!(); //InformationRate::from(total_size  / time_taken);
+        let info_rate = total_size.over(time_taken);
         println!(
             "Transferred {} items of size {} in {} seconds ({})",
             item_count,
