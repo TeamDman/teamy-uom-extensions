@@ -15,16 +15,34 @@ mod human_impl {
     use super::*;
     use humantime;
 
-    impl HumanTimeExt for crate::Time {
+    // Implement for any `uom::si::time::Time<U, V>` where the underlying numeric
+    // value can be converted to f64. This lets the extension work with f32, f64
+    // and other numeric storage types provided by `uom`.
+    impl<U, V> HumanTimeExt for uom::si::time::Time<U, V>
+    where
+        U: uom::si::Units<V> + ?Sized,
+        V: uom::num::Num
+            + uom::Conversion<V>
+            + uom::num::ToPrimitive
+            + PartialOrd
+            + Copy,
+        uom::si::time::second: uom::Conversion<V, T = V::T>,
+    {
         fn format_human(&self) -> String {
-            let secs = self.get::<uom::si::time::second>();
+            let secs_v = self.get::<uom::si::time::second>();
+            let secs = secs_v.to_f64().unwrap_or(0.0_f64);
             let dur = std::time::Duration::from_secs_f64(secs.abs());
             let formatted = humantime::format_duration(dur).to_string();
-            if secs.is_sign_negative() { format!("-{}", formatted) } else { formatted }
+            if secs.is_sign_negative() {
+                format!("-{}", formatted)
+            } else {
+                formatted
+            }
         }
 
         fn format_human_precise(&self) -> String {
-            let secs = self.get::<uom::si::time::second>();
+            let secs_v = self.get::<uom::si::time::second>();
+            let secs = secs_v.to_f64().unwrap_or(0.0_f64);
             // Convert to exact nanoseconds (clamped) and format.
             let nanos_f = secs * 1e9_f64;
             let sign = nanos_f.is_sign_negative();
@@ -32,7 +50,11 @@ mod human_impl {
             let nanos_u128 = nanos_abs.min(u128::MAX as f64) as u128;
             let dur = std::time::Duration::from_nanos(nanos_u128 as u64);
             let formatted = humantime::format_duration(dur).to_string();
-            if sign { format!("-{}", formatted) } else { formatted }
+            if sign {
+                format!("-{}", formatted)
+            } else {
+                formatted
+            }
         }
     }
 }
@@ -41,13 +63,27 @@ mod human_impl {
 mod no_human_impl {
     use super::*;
 
-    impl HumanTimeExt for crate::Time {
+    impl<U, V> HumanTimeExt for uom::si::time::Time<U, V>
+    where
+        U: uom::si::Units<V> + ?Sized,
+        V: uom::num::Num
+            + uom::Conversion<V>
+            + uom::num::ToPrimitive
+            + PartialOrd
+            + Copy,
+        uom::si::time::second: uom::Conversion<V, T = V::T>,
+        uom::si::time::nanosecond: uom::Conversion<V, T = V::T>,
+    {
         fn format_human(&self) -> String {
-            format!("{} s", self.get::<uom::si::time::second>())
+            let secs_v = self.get::<uom::si::time::second>();
+            let secs = secs_v.to_f64().unwrap_or(0.0_f64);
+            format!("{} s", secs)
         }
 
         fn format_human_precise(&self) -> String {
-            format!("{} ns", (self.get::<uom::si::time::second>() * 1e9_f64).round())
+            let secs_v = self.get::<uom::si::time::second>();
+            let nanos = secs_v.to_f64().unwrap_or(0.0_f64) * 1e9_f64;
+            format!("{} ns", nanos.round())
         }
     }
 }

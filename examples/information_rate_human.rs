@@ -1,5 +1,9 @@
-use teamy_uom_extensions::{InformationRate, HumanInformationRateExt, DECIMAL, BINARY};
-use uom::si::information_rate::{byte_per_second, kilobyte_per_second};
+use teamy_uom_extensions::BINARY;
+use teamy_uom_extensions::DECIMAL;
+use teamy_uom_extensions::HumanInformationRateExt;
+use uom::si::f64::InformationRate;
+use uom::si::information_rate::byte_per_second;
+use uom::si::information_rate::kilobyte_per_second;
 
 fn main() {
     println!("=== InformationRate Human-Readable Demo ===");
@@ -11,7 +15,8 @@ fn main() {
     ];
 
     for (desc, r) in rates.into_iter() {
-        println!("{:<10} -> decimal: {:<10}  binary: {:<10} (raw {} B/s)",
+        println!(
+            "{:<10} -> decimal: {:<10}  binary: {:<10} (raw {} B/s)",
             desc,
             r.format_human(DECIMAL),
             r.format_human(BINARY),

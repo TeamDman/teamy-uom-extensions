@@ -1,5 +1,12 @@
-use teamy_uom_extensions::{Information, HumanInformationExt, DECIMAL, BINARY};
-use uom::si::information::{byte, kilobyte, megabyte, kibibyte, mebibyte};
+use teamy_uom_extensions::BINARY;
+use teamy_uom_extensions::DECIMAL;
+use teamy_uom_extensions::HumanInformationExt;
+use uom::si::f64::Information;
+use uom::si::information::byte;
+use uom::si::information::kibibyte;
+use uom::si::information::kilobyte;
+use uom::si::information::mebibyte;
+use uom::si::information::megabyte;
 
 fn main() {
     println!("=== Information Human-Readable Demo ===");
@@ -15,7 +22,8 @@ fn main() {
     ];
 
     for (desc, size) in examples.into_iter() {
-        println!("{:<10} -> decimal: {:<12}  binary: {:<12} (raw {} B)",
+        println!(
+            "{:<10} -> decimal: {:<12}  binary: {:<12} (raw {} B)",
             desc,
             size.format_human(DECIMAL),
             size.format_human(BINARY),

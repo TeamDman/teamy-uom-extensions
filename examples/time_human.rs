@@ -1,6 +1,8 @@
-use teamy_uom_extensions::Time;
 use teamy_uom_extensions::HumanTimeExt;
-use uom::si::time::{second, minute, millisecond};
+use uom::si::f64::Time;
+use uom::si::time::millisecond;
+use uom::si::time::minute;
+use uom::si::time::second;
 
 fn main() {
     println!("=== Time Human-Readable Demo ===");
@@ -12,6 +14,11 @@ fn main() {
     ];
 
     for (desc, t) in durations.iter() {
-        println!("{:<8} -> human: {:<12}  nanos: {:<12}", desc, t.format_human(), t.format_human_precise());
+        println!(
+            "{:<8} -> human: {:<12}  nanos: {:<12}",
+            desc,
+            t.format_human(),
+            t.format_human_precise()
+        );
     }
 }
